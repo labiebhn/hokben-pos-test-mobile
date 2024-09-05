@@ -3,29 +3,25 @@ import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import palettes from '../../../../utils/palettes';
 import {Navbar} from '../../../../components/layouts';
-import CardProduct from '../../../../components/cards/card-product';
 import {ButtonMain} from '../../../../components/buttons';
 
-const ProductList = ({navigation}: any) => {
+const Checkout = ({navigation}: any) => {
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Navbar title="Produk" />
-      <ScrollView>
+      <Navbar title={'Checkout'} />
+      <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
-          <CardProduct mode={'setting'} />
+          <Text>Checkout</Text>
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <ButtonMain
-          title={'Tambah Produk'}
-          onPress={() => navigation.navigate('product-form')}
-        />
+        <ButtonMain title={'Buat Pesanan'} />
       </View>
     </SafeAreaView>
   );
 };
 
-export default ProductList;
+export default Checkout;
 
 const styles = StyleSheet.create({
   safeArea: {

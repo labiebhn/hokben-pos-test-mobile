@@ -1,22 +1,55 @@
 import {StyleSheet, Text, View} from 'react-native';
-import React from 'react';
+import React, {FC} from 'react';
 import palettes from '../../../utils/palettes';
 import FastImage from 'react-native-fast-image';
 import {ImageEmpty} from '../../../assets';
 import fonts from '../../../utils/fonts';
-import {ButtonText} from '../../buttons';
+import {ButtonMain, ButtonText} from '../../buttons';
+import { NumberSpinner } from '../../forms';
 
-const CardProduct = () => {
+export type CardProductMode = 'cashier' | 'cart' | 'setting';
+
+export interface CardProductProps {
+  mode: CardProductMode;
+}
+
+const CardProduct: FC<CardProductProps> = props => {
+  const {mode} = props;
+
+  const isSetting = mode === 'setting';
+  const isCashier = mode === 'cashier';
+  const isCart = mode === 'cart';
+
+  const actionView = () => {
+    if (isCashier) {
+      return (
+        <View style={styles.action}>
+          <ButtonMain size={'sm'} title={'Tambahkan ke Keranjang'} />
+        </View>
+      );
+    }
+    if (isCart) {
+      return (
+        <View style={styles.action}>
+          <NumberSpinner />
+        </View>
+      );
+    }
+    return (
+      <View style={styles.action}>
+        <ButtonText title={'Edit'} />
+        <ButtonText title={'Hapus'} />
+      </View>
+    );
+  };
+
   return (
     <View style={styles.container}>
       <FastImage source={ImageEmpty} style={styles.img} />
       <View style={styles.content}>
         <Text style={styles.title}>Bakpao Keju</Text>
-        <Text style={styles.desc}>Bahan Baku: </Text>
-        <View style={styles.action}>
-          <ButtonText title={'Edit'} />
-          <ButtonText title={'Hapus'} />
-        </View>
+        {<Text style={styles.desc}>Bahan Baku: </Text>}
+        {actionView()}
       </View>
     </View>
   );

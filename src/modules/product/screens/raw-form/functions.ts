@@ -8,12 +8,8 @@ export const useRawForm = () => {
     },
     rawPrice: {
       ...initialForm,
-      label: 'Harga Bahan Baku',
+      label: 'Harga Bahan Baku Per Gram',
       type: 'currency',
-    },
-    rawStock: {
-      ...initialForm,
-      label: 'Stok Bahan Baku (kg)',
     },
   });
   return {form, action: {setForm}};
