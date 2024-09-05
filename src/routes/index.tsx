@@ -8,6 +8,8 @@ import ProductList from '../modules/product/screens/product-list';
 import ProductForm from '../modules/product/screens/product-form';
 import RawForm from '../modules/product/screens/raw-form';
 import RawList from '../modules/product/screens/raw-list';
+import TransactionList from '../modules/transaction/screens/transaction-list';
+import TransactionDetail from '../modules/transaction/screens/transaction-detail';
 
 const Stack = createNativeStackNavigator();
 
@@ -20,6 +22,8 @@ const Routes = () => {
         <Stack.Screen name="product-form" component={ProductForm} />
         <Stack.Screen name="raw-list" component={RawList} />
         <Stack.Screen name="raw-form" component={RawForm} />
+        <Stack.Screen name="transaction-list" component={TransactionList} />
+        <Stack.Screen name="transaction-detail" component={TransactionDetail} />
       </Stack.Navigator>
     </NavigationContainer>
   );
