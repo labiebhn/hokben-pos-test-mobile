@@ -1,0 +1,1 @@
+export type ResetStatusHook = "loading" | "data" | "all" | undefined;

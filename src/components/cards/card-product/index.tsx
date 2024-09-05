@@ -5,7 +5,7 @@ import FastImage from 'react-native-fast-image';
 import {ImageEmpty} from '../../../assets';
 import fonts from '../../../utils/fonts';
 import {ButtonMain, ButtonText} from '../../buttons';
-import { NumberSpinner } from '../../forms';
+import {NumberSpinner} from '../../forms';
 
 export type CardProductMode = 'cashier' | 'cart' | 'setting';
 
@@ -48,7 +48,7 @@ const CardProduct: FC<CardProductProps> = props => {
       <FastImage source={ImageEmpty} style={styles.img} />
       <View style={styles.content}>
         <Text style={styles.title}>Bakpao Keju</Text>
-        {<Text style={styles.desc}>Bahan Baku: </Text>}
+        {isSetting && <Text style={styles.desc}>Bahan Baku: </Text>}
         {actionView()}
       </View>
     </View>

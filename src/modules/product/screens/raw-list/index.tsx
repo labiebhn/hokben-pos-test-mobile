@@ -1,29 +1,60 @@
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import React from 'react';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import palettes from '../../../../utils/palettes';
 import {Navbar} from '../../../../components/layouts';
-import {RAW_LIST_PARAMS_TYPE} from '../../../../constants/product';
 import {ButtonMain} from '../../../../components/buttons';
 import {CardRaw} from '../../../../components/cards';
+import {useRawList} from './functions';
 
-const RawList = ({navigation, route}: any) => {
-  const {params} = route;
-  const isSelection = params?.type === RAW_LIST_PARAMS_TYPE.SELECT;
+const RawList = (props: any) => {
+  const {
+    isSelection,
+    data,
+    isLoading,
+    refreshing,
+    action: {goToForm, onRefresh, onEdit, askForDelete},
+  } = useRawList(props);
+
+  const renderList = () => {
+    if (!data) {
+      return isLoading ? <ActivityIndicator size={'large'} /> : null;
+    }
+    return data.map((item: any, index: any) => {
+      return (
+        <CardRaw
+          key={index?.toString()}
+          selection={isSelection}
+          title={item?.name}
+          onEditPress={() => onEdit(item)}
+          onDeletePress={() => askForDelete(item)}
+        />
+      );
+    });
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <Navbar title={isSelection ? 'Pilih Bahan Baku' : 'Bahan Baku'} />
-      <ScrollView contentContainerStyle={{flexGrow: 1}}>
-        <View style={styles.container}>
-          <CardRaw selection={isSelection} />
-          <CardRaw selection={isSelection} />
-          <CardRaw selection={isSelection} />
-        </View>
+      <ScrollView
+        contentContainerStyle={{flexGrow: 1}}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <View style={styles.container}>{renderList()}</View>
       </ScrollView>
       <View style={styles.footer}>
         <ButtonMain
           title={'Tambah Bahan Baku'}
-          onPress={() => navigation.navigate('raw-form')}
+          isLoading={isLoading}
+          onPress={goToForm}
         />
       </View>
     </SafeAreaView>

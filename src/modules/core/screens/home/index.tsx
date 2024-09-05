@@ -14,7 +14,7 @@ const Home = ({navigation}: any) => {
     <SafeAreaView style={styles.safeArea}>
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
-          <Text style={styles.title}>Menu</Text>
+          <Text style={styles.title}>Hokben POS</Text>
           <View style={styles.menu}>
             <ButtonMenu title={'Kasir'} onPress={() => nav('cashier')} />
             <ButtonMenu

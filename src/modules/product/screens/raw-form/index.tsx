@@ -7,38 +7,35 @@ import {InputTextMain} from '../../../../components/forms';
 import {useRawForm} from './functions';
 import {ButtonMain} from '../../../../components/buttons';
 
-const ProductForm = () => {
+const RawForm = (props: any) => {
   const {
     form,
-    action: {setForm},
-  } = useRawForm();
+    isLoading,
+    action: {setForm, onSubmit},
+  } = useRawForm(props);
   return (
     <SafeAreaView style={styles.safeArea}>
       <Navbar title="Tambah Bahan Baku" />
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
           <InputTextMain
-            {...form.rawName}
-            onChangeText={value => setForm('rawName', value)}
+            {...form.name}
+            onChangeText={value => setForm('name', value)}
           />
           <InputTextMain
-            {...form.rawPrice}
-            onChangeText={value => setForm('rawPrice', value)}
-          />
-          <InputTextMain
-            {...form.rawStock}
-            onChangeText={value => setForm('rawStock', value)}
+            {...form.pricePerKg}
+            onChangeText={value => setForm('pricePerKg', value)}
           />
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <ButtonMain title={'Simpan'} />
+        <ButtonMain title={'Simpan'} isLoading={isLoading} onPress={onSubmit} />
       </View>
     </SafeAreaView>
   );
 };
 
-export default ProductForm;
+export default RawForm;
 
 const styles = StyleSheet.create({
   safeArea: {

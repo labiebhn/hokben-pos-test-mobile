@@ -8,11 +8,15 @@ import {InputTextMain} from '../../forms';
 export interface CardRawProps {
   selection?: boolean;
   value?: any;
+  title?: string;
   onValueChange?(value: string): void;
+  onEditPress?(): void;
+  onDeletePress?(): void;
 }
 
 const CardRaw: FC<CardRawProps> = props => {
-  const {selection, value, onValueChange} = props;
+  const {selection, value, title, onEditPress, onDeletePress, onValueChange} =
+    props;
 
   const actionView = () => {
     if (selection) {
@@ -32,15 +36,15 @@ const CardRaw: FC<CardRawProps> = props => {
     }
     return (
       <View style={styles.action}>
-        <ButtonText title={'Edit'} />
-        <ButtonText title={'Hapus'} />
+        <ButtonText title={'Ubah'} onPress={onEditPress} />
+        <ButtonText title={'Hapus'} onPress={onDeletePress} />
       </View>
     );
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Bakpao Keju</Text>
+      <Text style={styles.title}>{title}</Text>
       {actionView()}
     </View>
   );
