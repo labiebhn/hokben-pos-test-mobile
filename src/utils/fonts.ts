@@ -57,6 +57,10 @@ const fonts = {
     fontSize: 12,
     color: palettes.text,
   },
+  input: {
+    fontSize: 12,
+    color: palettes.text,
+  },
 };
 
 export default fonts;

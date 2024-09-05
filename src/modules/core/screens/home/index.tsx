@@ -17,8 +17,9 @@ const Home = ({navigation}: any) => {
           <Text style={styles.title}>Menu</Text>
           <View style={styles.menu}>
             <ButtonMenu title={'Kasir'} />
+            <ButtonMenu title={'Riwayat Transaksi'} />
             <ButtonMenu title={'Produk'} onPress={() => nav('product-list')} />
-            <ButtonMenu title={'Transaksi'} />
+            <ButtonMenu title={'Bahan Baku'} onPress={() => nav('raw-list')} />
           </View>
         </View>
       </ScrollView>

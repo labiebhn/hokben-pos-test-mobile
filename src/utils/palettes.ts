@@ -4,6 +4,7 @@ const palettes = {
   primary: '#FFC300',
   secondary: '#18c026',
   text: '#333333',
+  textPlaceholder: '#C4C4C4',
   background: '#ffffff',
   border: '#DEE3ED',
   card: '#F6F9FC',

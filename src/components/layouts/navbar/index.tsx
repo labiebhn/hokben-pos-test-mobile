@@ -15,10 +15,12 @@ const Navbar: FC<NavbarProps> = props => {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <ButtonIcon
-        icon={<IconBack width={36} height={38} />}
-        onPress={navigation.goBack}
-      />
+      {navigation.canGoBack() && (
+        <ButtonIcon
+          icon={<IconBack width={36} height={38} />}
+          onPress={navigation.goBack}
+        />
+      )}
       <Text style={styles.title}>{title}</Text>
     </View>
   );
