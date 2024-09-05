@@ -20,7 +20,16 @@ const RawList = (props: any) => {
     data,
     isLoading,
     refreshing,
-    action: {goToForm, onRefresh, onEdit, askForDelete},
+    enableSubmit,
+    action: {
+      onRefresh,
+      onEdit,
+      askForDelete,
+      toggleSelectRaw,
+      getSelectedRawData,
+      usageInGramChange,
+      onSubmit,
+    },
   } = useRawList(props);
 
   const renderList = () => {
@@ -28,13 +37,17 @@ const RawList = (props: any) => {
       return isLoading ? <ActivityIndicator size={'large'} /> : null;
     }
     return data.map((item: any, index: any) => {
+      const selectedData: any = getSelectedRawData(item) || {};
       return (
         <CardRaw
           key={index?.toString()}
           selection={isSelection}
           title={item?.name}
+          value={selectedData?.usageInGram}
+          onValueChange={value => usageInGramChange(item, value)}
           onEditPress={() => onEdit(item)}
           onDeletePress={() => askForDelete(item)}
+          toggleSelectPress={() => toggleSelectRaw(item)}
         />
       );
     });
@@ -52,9 +65,10 @@ const RawList = (props: any) => {
       </ScrollView>
       <View style={styles.footer}>
         <ButtonMain
-          title={'Tambah Bahan Baku'}
+          title={isSelection ? 'Simpan' : 'Tambah Bahan Baku'}
           isLoading={isLoading}
-          onPress={goToForm}
+          disabled={!enableSubmit}
+          onPress={onSubmit}
         />
       </View>
     </SafeAreaView>

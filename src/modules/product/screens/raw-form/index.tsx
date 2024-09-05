@@ -11,11 +11,12 @@ const RawForm = (props: any) => {
   const {
     form,
     isLoading,
+    isEdit,
     action: {setForm, onSubmit},
   } = useRawForm(props);
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Navbar title="Tambah Bahan Baku" />
+      <Navbar title={`${isEdit ? 'Ubah' : 'Tambah'} Bahan Baku`} />
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
           <InputTextMain

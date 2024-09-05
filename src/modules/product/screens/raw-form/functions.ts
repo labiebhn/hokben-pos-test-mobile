@@ -59,7 +59,7 @@ export const useRawForm = (props: any) => {
     }
   };
 
-  return {form, isLoading, action: {setForm, onSubmit}};
+  return {form, isLoading, isEdit, action: {setForm, onSubmit}};
 };
 
 export type UseRawForm = ReturnType<typeof useRawForm>;

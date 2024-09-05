@@ -12,25 +12,38 @@ export interface CardRawProps {
   onValueChange?(value: string): void;
   onEditPress?(): void;
   onDeletePress?(): void;
+  toggleSelectPress?(): void;
 }
 
 const CardRaw: FC<CardRawProps> = props => {
-  const {selection, value, title, onEditPress, onDeletePress, onValueChange} =
-    props;
+  const {
+    selection,
+    value,
+    title,
+    onEditPress,
+    onDeletePress,
+    onValueChange,
+    toggleSelectPress,
+  } = props;
 
   const actionView = () => {
     if (selection) {
       return (
         <View style={styles.action}>
-          {value ? (
+          {value != null ? (
             <InputTextMain
-              styleContainer={{width: 150}}
-              label={'Penggunaan Bahan Baku'}
+              styleContainer={{width: 100}}
+              label={'Penggunaan Bahan Baku (gram)'}
               value={value}
+              type={'number-pad'}
               onChangeText={onValueChange}
             />
           ) : null}
-          <ButtonMain size={'sm'} title={value ? 'Batal Pilih' : 'Pilih'} />
+          <ButtonMain
+            size={'sm'}
+            title={value != null ? 'Batal Pilih' : 'Pilih'}
+            onPress={toggleSelectPress}
+          />
         </View>
       );
     }

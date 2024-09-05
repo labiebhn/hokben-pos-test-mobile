@@ -11,30 +11,38 @@ import {
 import {useProductForm} from './functions';
 import {ButtonMain} from '../../../../components/buttons';
 
-const ProductForm = () => {
+const ProductForm = (props: any) => {
   const {
     form,
-    action: {setForm},
-  } = useProductForm();
+    isEdit,
+    isLoading,
+    action: {setForm, onRawChange, onSubmit},
+  } = useProductForm(props);
   return (
     <SafeAreaView style={styles.safeArea}>
       <Navbar title="Tambah Produk" />
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
           <InputTextMain
-            {...form.productName}
-            onChangeText={value => setForm('productName', value)}
+            {...form.name}
+            onChangeText={value => setForm('name', value)}
           />
           <InputTextMain
-            {...form.productPrice}
-            onChangeText={value => setForm('productPrice', value)}
+            {...form.price}
+            onChangeText={value => setForm('price', value)}
           />
-          <InputProductRaw {...form.productRaw} />
-          <InputMedia {...form.productImage} />
+          <InputProductRaw
+            {...form.raws}
+            onChange={onRawChange}
+          />
+          <InputMedia
+            {...form.productImage}
+            onChangeImage={value => setForm('productImage', value)}
+          />
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <ButtonMain title={'Simpan'} />
+        <ButtonMain title={'Simpan'} isLoading={isLoading} onPress={onSubmit} />
       </View>
     </SafeAreaView>
   );

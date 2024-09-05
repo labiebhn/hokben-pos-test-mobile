@@ -14,14 +14,15 @@ export interface ButtonMainProps {
   title: string;
   size?: ButtonMainSize;
   isLoading?: boolean;
+  disabled?: boolean;
   onPress?(): void;
 }
 
 const ButtonMain: FC<ButtonMainProps> = props => {
-  const {title, size, isLoading, onPress} = props;
-  const styles = useStyles(size);
+  const {title, size, isLoading, disabled, onPress} = props;
+  const styles = useStyles(size, disabled);
   return (
-    <TouchableNativeFeedback disabled={isLoading} onPress={onPress}>
+    <TouchableNativeFeedback disabled={disabled || isLoading} onPress={onPress}>
       <View style={styles.container}>
         {isLoading ? (
           <ActivityIndicator size={'small'} color={palettes.background} />
@@ -35,7 +36,7 @@ const ButtonMain: FC<ButtonMainProps> = props => {
 
 export default ButtonMain;
 
-const useStyles = (size: ButtonMainSize) =>
+const useStyles = (size: ButtonMainSize, disabled?: boolean) =>
   StyleSheet.create({
     container: {
       backgroundColor: palettes.primary,
@@ -43,6 +44,7 @@ const useStyles = (size: ButtonMainSize) =>
       borderRadius: 8,
       justifyContent: 'center',
       alignItems: 'center',
+      opacity: disabled ? 0.7 : 1,
     },
     title: {
       ...fonts.h6,

@@ -122,7 +122,7 @@ const InputTextMain: FC<InputTextMainProps> = ({
     } else {
       return (
         <TextInput
-          value={value}
+          value={`${value}`}
           placeholder={placeholder}
           editable={editable}
           autoFocus={autoFocus}

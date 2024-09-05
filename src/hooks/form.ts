@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import {Validation} from '../utils/validation';
+import {validateNumber, Validation} from '../utils/validation';
 
 export interface InitialFormType {
   [key: string]: {

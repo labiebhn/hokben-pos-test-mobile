@@ -4,12 +4,14 @@ import {useDeleteRaw, useGetRaw} from '../../../../hooks/services/raws';
 import {useFocusEffect} from '@react-navigation/native';
 import {Alert} from 'react-native';
 import Snackbar from 'react-native-snackbar';
-import {setErrorMessage} from '../../../../utils/helpers';
+import {deleteArray, setErrorMessage} from '../../../../utils/helpers';
 
 export const useRawList = (props: any) => {
   const {navigation, route} = props;
   const {params} = route;
+
   const isSelection = params?.type === RAW_LIST_PARAMS_TYPE.SELECT;
+  const paramsRaw = params?.selectedRaw;
 
   const {getRaw, getRawService} = useGetRaw();
   const {data} = getRaw;
@@ -19,7 +21,12 @@ export const useRawList = (props: any) => {
   const isLoading =
     getRaw.loading === 'pending' || deleteRaw.loading === 'pending';
 
+  const [selectedRaw, setSelectedRaw] = useState([]);
   const [refreshing, setRefreshing] = useState(false);
+
+  useEffect(() => {
+    setSelectedRaw(paramsRaw || []);
+  }, [paramsRaw]);
 
   const fetch = () => {
     getRawService();
@@ -70,12 +77,71 @@ export const useRawList = (props: any) => {
     }
   };
 
+  const toggleSelectRaw = (raw: any) => {
+    let result: any = [...selectedRaw];
+    const selectedIndex = selectedRaw.findIndex(
+      (sRaw: any) => sRaw?.rawId === raw?.id,
+    );
+    if (selectedIndex >= 0) {
+      result = deleteArray(result, selectedIndex);
+    } else {
+      result.push({name: raw?.name, rawId: raw?.id, usageInGram: '1'});
+    }
+    setSelectedRaw(result);
+  };
+
+  const getSelectedRawData = (raw: any) => {
+    return selectedRaw.find((sRaw: any) => sRaw?.rawId === raw?.id);
+  };
+
+  const usageInGramChange = (raw: any, value: any) => {
+    let result: any = [...selectedRaw];
+    const selectedIndex = selectedRaw.findIndex(
+      (sRaw: any) => sRaw?.rawId === raw?.id,
+    );
+    result[selectedIndex].usageInGram = value;
+    setSelectedRaw(result);
+  };
+
+  const enableSubmit = isSelection ? Boolean(selectedRaw.length) : true;
+  const onSubmit = () => {
+    if (!isSelection) {
+      goToForm();
+      return;
+    }
+    let payload = selectedRaw.filter((sRaw: any) =>
+      Boolean(Number(sRaw?.usageInGram)),
+    );
+    if (payload?.length) {
+      let deletedPayload: any = [];
+      if (paramsRaw && paramsRaw.length) {
+        const rawIds = payload.map((sRaw: any) => sRaw?.rawId);
+        deletedPayload = paramsRaw.filter(
+          (sRaw: any) => !rawIds.includes(sRaw?.rawId),
+        );
+      }
+      params?.callback?.(payload, deletedPayload);
+    }
+    navigation.goBack();
+  };
+
   return {
     isSelection,
     data,
     isLoading,
     refreshing,
-    action: {goToForm, onRefresh, onEdit, askForDelete},
+    selectedRaw,
+    enableSubmit,
+    action: {
+      goToForm,
+      onRefresh,
+      onEdit,
+      askForDelete,
+      toggleSelectRaw,
+      getSelectedRawData,
+      usageInGramChange,
+      onSubmit,
+    },
   };
 };
 
