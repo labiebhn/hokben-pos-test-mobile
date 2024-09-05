@@ -10,3 +10,6 @@
 # Add any project specific keep options here:
 
 -keep class com.mypackage.BuildConfig { *; }
+
+# react-native-svg
+-keep public class com.horcrux.svg.** {*;}
