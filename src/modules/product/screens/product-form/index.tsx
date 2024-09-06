@@ -20,7 +20,7 @@ const ProductForm = (props: any) => {
   } = useProductForm(props);
   return (
     <SafeAreaView style={styles.safeArea}>
-      <Navbar title="Tambah Produk" />
+      <Navbar title={isEdit ? 'Ubah Produk' : 'Tambah Produk'} />
       <ScrollView contentContainerStyle={{flexGrow: 1}}>
         <View style={styles.container}>
           <InputTextMain
@@ -31,10 +31,7 @@ const ProductForm = (props: any) => {
             {...form.price}
             onChangeText={value => setForm('price', value)}
           />
-          <InputProductRaw
-            {...form.raws}
-            onChange={onRawChange}
-          />
+          <InputProductRaw {...form.raws} onChange={onRawChange} />
           <InputMedia
             {...form.productImage}
             onChangeImage={value => setForm('productImage', value)}

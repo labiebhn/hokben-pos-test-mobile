@@ -15,9 +15,7 @@ const NumberSpinner: FC<NumberSpinnerProps> = props => {
   const numberValue: number = Number(value) || 0;
 
   const min = () => {
-    let result = numberValue;
-    if (numberValue) result -= 1;
-    onMinPress?.(result);
+    onMinPress?.(numberValue - 1);
   };
 
   const plus = () => {

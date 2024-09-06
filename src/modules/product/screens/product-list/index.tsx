@@ -34,6 +34,7 @@ const ProductList = (props: any) => {
           key={index?.toString()}
           mode={'setting'}
           title={item?.name}
+          price={item?.price}
           imageUri={item?.imageUri}
           raw={mappedRaw}
           onEditPress={() => onEdit(item)}
@@ -53,7 +54,7 @@ const ProductList = (props: any) => {
         <View style={styles.container}>{renderList()}</View>
       </ScrollView>
       <View style={styles.footer}>
-        <ButtonMain title={'Tambah Produk'} onPress={goToForm} />
+        <ButtonMain title={'Tambah Produk'} isLoading={isLoading} onPress={goToForm} />
       </View>
     </SafeAreaView>
   );

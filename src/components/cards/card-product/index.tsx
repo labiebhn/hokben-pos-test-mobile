@@ -6,21 +6,36 @@ import {ImageEmpty} from '../../../assets';
 import fonts from '../../../utils/fonts';
 import {ButtonMain, ButtonText} from '../../buttons';
 import {NumberSpinner} from '../../forms';
-import {getRawName, imageUrl} from '../../../utils/helpers';
+import {currency, getRawName, imageUrl} from '../../../utils/helpers';
 
 export type CardProductMode = 'cashier' | 'cart' | 'setting';
 
 export interface CardProductProps {
   mode: CardProductMode;
   title?: string;
+  price?: number;
   raw?: any;
   imageUri?: string;
+  value?: number;
+  onValueChange?(value: number): void;
   onDeletePress?(): void;
   onEditPress?(): void;
+  onCartPress?(): void;
 }
 
 const CardProduct: FC<CardProductProps> = props => {
-  const {mode, title, raw, imageUri, onDeletePress, onEditPress} = props;
+  const {
+    mode,
+    title,
+    price,
+    raw,
+    imageUri,
+    value,
+    onValueChange,
+    onDeletePress,
+    onEditPress,
+    onCartPress,
+  } = props;
 
   const isSetting = mode === 'setting';
   const isCashier = mode === 'cashier';
@@ -34,20 +49,28 @@ const CardProduct: FC<CardProductProps> = props => {
     if (isCashier) {
       return (
         <View style={styles.action}>
-          <ButtonMain size={'sm'} title={'Tambahkan ke Keranjang'} />
+          <ButtonMain
+            size={'sm'}
+            title={'Tambahkan ke Keranjang'}
+            onPress={onCartPress}
+          />
         </View>
       );
     }
     if (isCart) {
       return (
         <View style={styles.action}>
-          <NumberSpinner />
+          <NumberSpinner
+            value={value}
+            onAddPress={onValueChange}
+            onMinPress={onValueChange}
+          />
         </View>
       );
     }
     return (
       <View style={styles.action}>
-        <ButtonText title={'Edit'} onPress={onEditPress} />
+        <ButtonText title={'Ubah'} onPress={onEditPress} />
         <ButtonText title={'Hapus'} onPress={onDeletePress} />
       </View>
     );
@@ -61,6 +84,9 @@ const CardProduct: FC<CardProductProps> = props => {
       />
       <View style={styles.content}>
         <Text style={styles.title}>{title}</Text>
+        <Text style={[styles.title, {fontWeight: 'bold'}]}>
+          Rp{currency(price)}
+        </Text>
         {isSetting && <Text style={styles.desc}>Bahan Baku: {rawName}</Text>}
         {actionView()}
       </View>
@@ -90,6 +116,7 @@ const styles = StyleSheet.create({
   },
   title: {
     ...fonts.h4,
+    fontWeight: 'normal',
   },
   desc: {
     ...fonts.p,

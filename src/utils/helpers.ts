@@ -1,4 +1,5 @@
 import CONFIGS from '../configs';
+import {METHOD_ORDER} from '../constants/order';
 import InitialState from '../store/types';
 import {ResetStatusHook} from '../types/hooks';
 
@@ -70,4 +71,52 @@ export const mapRawData = (raws: any) => {
     usageInGram: raw?.usageInGram,
     name: raw?.detail?.name,
   }));
+};
+
+export const getTotalBill = (data: any) => {
+  if (!data) return 0;
+  let total = 0;
+  for (let product of data) {
+    total += Number(product.price) * Number(product.qty);
+  }
+  return total;
+};
+
+export const getTotalPackaging = (data: any) => {
+  if (!data) return 0;
+  let total = 0;
+  for (let product of data) {
+    total += CONFIGS.PACKAGING_COST * Number(product.qty);
+  }
+  return total;
+};
+
+export const getGrandTotal = (data: any, methodOrder: any) => {
+  if (!data) return 0;
+  let total = 0;
+  for (let product of data) {
+    total += Number(product.price) * Number(product.qty);
+    total +=
+      (methodOrder === METHOD_ORDER.TAKE_AWAY ? CONFIGS.PACKAGING_COST : 0) *
+      Number(product.qty);
+  }
+  return total;
+};
+
+export const getTotalQty = (data: any) => {
+  if (!data) return 0;
+  let total = 0;
+  for (let product of data) {
+    total += product.qty;
+  }
+  return total;
+};
+
+export const currency = (number: any) => {
+  if (number) {
+    number = Math.abs(Number(number));
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  } else {
+    return '0';
+  }
 };
