@@ -22,7 +22,8 @@ const Checkout = (props: any) => {
     totalBill,
     totalPackaging,
     grandTotal,
-    action: {setMethodOrder},
+    isLoading,
+    action: {setMethodOrder, onSubmit},
   } = useCheckout(props);
 
   const renderList = () => {
@@ -84,7 +85,11 @@ const Checkout = (props: any) => {
         </View>
       </ScrollView>
       <View style={styles.footer}>
-        <ButtonMain title={'Buat Pesanan'} />
+        <ButtonMain
+          title={'Buat Pesanan'}
+          isLoading={isLoading}
+          onPress={onSubmit}
+        />
       </View>
     </SafeAreaView>
   );
@@ -131,5 +136,5 @@ const styles = StyleSheet.create({
   },
   summary: {
     rowGap: 16,
-  }
+  },
 });

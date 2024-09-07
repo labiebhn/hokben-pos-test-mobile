@@ -11,6 +11,11 @@ const ENDPOINTS = {
     PUT: '/v1/product/:id',
     DELETE: '/v1/product/:id',
   },
+  TRANSACTION: {
+    POST: '/v1/transaction',
+    GET: '/v1/transaction',
+    GET_DETAIL: '/v1/transaction/:id',
+  },
 };
 
 export default ENDPOINTS;
